@@ -102,7 +102,7 @@ function getNavHtml() {
   html += '      <img src="img/ico_consideration.svg" width="28" height="28" alt="">  ';
   html += '<span class="mx-2">'+app_name+'</span>';
   html += '    </a>';
-  html += '      <button class="btn btn-light text-warning"><i class="fa fa-user-circle" style="font-size:28px;" onclick="return createLogoutView();"></i></button>';
+  // html += '      <button class="btn btn-light text-warning"><i class="fa fa-user-circle" style="font-size:28px;" onclick="return createLogoutView();"></i></button>';
   html += '    </div>';
   
   html += '  </div>';
@@ -345,6 +345,35 @@ function createVoucherView() {
 
 }
 
+function createMissionView() {
+
+  var title = 'Mission 1';
+  title += '<a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">';
+  title += '<i class="fa fa-info-circle text-secondary mx-2" style="font-size:18px;"></i>';
+  title += '</a>';
+
+  var body = '';
+  body += '<div class="collapse" id="collapseExample">';
+  body += '  <div class="card card-body">';
+  body += '    <strong>Practice the Words of Mother&#39;s Love at the Workplace <span class="text-success">5 Times</span></strong>';
+  body += '    <hr>';
+  body += '    <strong>Join <span class="text-success">5</span> Morning Prayer Meetings</strong>';
+  body += '  </div>';
+  body += '</div>';
+
+  body += '<div>';
+  body += '<button class="btn btn-light mx-1 my-1 disabled">Paul</button>';
+  body += '<button class="btn btn-light mx-1 my-1 disabled">John</button>';
+  body += '<button class="btn btn-warning mx-1 my-1 disabled">You</button>';
+
+  body += '</div>';
+
+  var footer = '<div class="d-flex col flex-column align-items"><button type="button" class="btn btn-warning" onclick="return;">我已完成！ I have completed!</button></div>';
+  showInputModal(title,body,footer);
+
+
+}
+
 function createRankingView() {
 
   var userinfo = getUserInfo();
@@ -366,22 +395,17 @@ function createRankingView() {
 
   html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
   html += '<div><span class="badge rounded-pill bg-warning">2</span>';
-  html += '<strong class="mx-3">Samson</strong></div>';
+  html += '<strong class="mx-3">Paul</strong></div>';
   html += '</li>';
 
   html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
   html += '<div><span class="badge rounded-pill bg-warning">2</span>';
-  html += '<strong class="mx-3">Esther</strong></div>';
+  html += '<strong class="mx-3">John</strong></div>';
   html += '</li>';
 
   html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
   html += '<div><span class="badge rounded-pill bg-warning">1</span>';
-  html += '<strong class="mx-3">Eve</strong></div>';
-  html += '</li>';
-
-  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
-  html += '<div><span class="badge rounded-pill bg-warning">1</span>';
-  html += '<strong class="mx-3">Adam</strong></div>';
+  html += '<strong class="mx-3">Peter</strong></div>';
   html += '</li>';
 
   html += '</ul>';
@@ -398,7 +422,7 @@ function createMainView() {
     setHeaderTitle('h2', 'Invalid User');
     return;
   }
-  userinfo.participants = 2;
+  userinfo.participants = 3;
   header.innerHTML = getNavHtml();
   footer.innerHTML = getFooterHtml();
 
@@ -413,28 +437,28 @@ function createMainView() {
   // html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
   html += '<div class="container col-12 text-center mt-2 mb-5 px-1 py-2">';
 
-  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3" onclick="return createMissionView();"><div class="my-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-success" style="font-size:14px;"></i>';
+  html += '<hr><h1 class="text-warning">2</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 2 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
+  html += '<hr><h1 class="text-warning">1</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 3 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
   html += '<hr><h1 class="text-warning">0</h1></div></button>';
 
-  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 4 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
+  html += '<hr><h1 class="text-warning">1</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 5 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
   html += '<hr><h1 class="text-warning">0</h1></div></button>';
 
-  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
-  html += '<hr><h1 class="text-warning">0</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
-  html += '<hr><h1 class="text-warning">0</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
-  html += '<hr><h1 class="text-warning">0</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 6 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
   html += '<hr><h1 class="text-warning">0</h1></div></button>';
 
   html += '<br><br><br>';
