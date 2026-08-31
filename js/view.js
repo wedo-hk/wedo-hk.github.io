@@ -354,7 +354,7 @@ function createMissionView() {
 
   var body = '';
   body += '<div class="collapse" id="collapseExample">';
-  body += '  <div class="card card-body">';
+  body += '  <div class="card card-body mb-3">';
   body += '    <strong>Practice the Words of Mother&#39;s Love at the Workplace <span class="text-success">5 Times</span></strong>';
   body += '    <hr>';
   body += '    <strong>Join <span class="text-success">5</span> Morning Prayer Meetings</strong>';
