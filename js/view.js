@@ -1,0 +1,487 @@
+function updatePageLabels() {
+  setInnerHTMLById('title', lab('100001'));
+}
+
+function on() {
+  document.getElementById('overlay').style.display = 'block';
+}
+
+function off() {
+  document.getElementById('overlay').style.display = 'none';
+}
+
+function setAttributeValueById(id, attr, value) {
+  if (document.getElementById(id)) {
+    document.getElementById(id).setAttribute(attr, value);
+  }
+}
+
+function setInnerHTMLById(id, value) {
+  if (document.getElementById(id)) {
+    document.getElementById(id).innerHTML = value;
+  }
+}
+
+function showAlertModal(title, body, footer) {
+  document.getElementById('alertModalTitle').innerHTML = '';
+  document.getElementById('alertModalBody').innerHTML = '';
+  document.getElementById('alertModalFooter').innerHTML = '';
+
+  document.getElementById('alertModalTitle').innerHTML = title;
+  document.getElementById('alertModalBody').innerHTML = body;
+  document.getElementById('alertModalFooter').innerHTML = footer;
+  alertModal.show();
+}
+
+function showInputModal(title, body, footer) {
+  document.getElementById('inputModalTitle').innerHTML = '';
+  document.getElementById('inputModalBody').innerHTML = '';
+  document.getElementById('inputModalFooter').innerHTML = '';
+
+  document.getElementById('inputModalTitle').innerHTML = title;
+  document.getElementById('inputModalBody').innerHTML = body;
+  document.getElementById('inputModalFooter').innerHTML = footer;
+  inputModal.show();
+}
+
+function showConfirmModal(title, body, footer) {
+  inputModal.hide();
+  document.getElementById('confirmModalTitle').innerHTML = '';
+  document.getElementById('confirmModalBody').innerHTML = '';
+  document.getElementById('confirmModalFooter').innerHTML = '';
+
+  document.getElementById('confirmModalTitle').innerHTML = title;
+  document.getElementById('confirmModalBody').innerHTML = body;
+  document.getElementById('confirmModalFooter').innerHTML = footer;
+  confirmModal.show();
+}
+
+function backRegForm() {
+  confirmModal.hide();
+  inputModal.show();
+}
+
+function submitRegForm() {
+  confirmModal.hide();
+  gasSubmitReg();
+}
+
+function submitRegForm_int() {
+  confirmModal.hide();
+  gasSubmitReg_int();
+}
+
+function createErrorView(err_msg) {
+  var contentHTML = '';
+  contentHTML += '<div class="text-center"><img class="img-fluid mt-5 mb-5" src="img/error.gif" class="d-block w-70" alt="">';
+  contentHTML += '<h3><span class="badge rounded-pill text-bg-danger'+'">'+err_msg+'</span></h3></div>';
+  showAlertModal(lab('100053'), contentHTML, '');
+}
+
+function createRegErrorView(err_msg) {
+  var contentHTML = '';
+  contentHTML += '<div class="text-center"><img class="img-fluid mt-5 mb-5" src="img/error.gif" class="d-block w-70" alt="">';
+  contentHTML += '<h3><span class="badge rounded-pill text-bg-danger'+'">'+err_msg+'</span></h3></div>';
+  showAlertModal('錯誤', contentHTML, '');
+}
+
+function createAccessView(res) {
+  console.log(JSON.stringify(res))
+  var contentHTML = '';
+  contentHTML += '<div class="text-center"><img class="mt-3 mb-3" src="img/'+(res)?'tick_sys':'error'+'.gif" class="d-block w-70" alt="">';
+  // contentHTML += '<h3><span class="badge rounded-pill text-bg-'+((res.type=='sys')?'success':'danger')+'">'+res.name+'</span></h3></div>';
+  showAlertModal('成功', contentHTML, '');
+}
+
+function getNavHtml() {
+  var userinfo = getUserInfo();
+  var html = '';
+  html += '<nav class="navbar navbar-light" style="background-color: #FCF9F4;">';
+  html += '  <div class="container-fluid mx-4 my-1">';
+  html += '    <a class="navbar-brand" href="#"  onclick="createMainView()">';
+  html += '      <img src="img/ico_consideration.svg" width="28" height="28" alt="">  ';
+  html += '<span class="mx-2">'+app_name+'</span>';
+  html += '    </a>';
+  html += '      <button class="btn btn-light text-warning"><i class="fa fa-user-circle" style="font-size:28px;" onclick="return createLogoutView();"></i></button>';
+  html += '    </div>';
+  
+  html += '  </div>';
+  html += '</nav>';
+  return html;
+}
+
+function getFooterHtml() {
+  var userinfo = getUserInfo();
+  var html = '';
+  html += '<nav class="navbar navbar-expand-lg bg-body-tertiary">';
+  html += '  <div class="container-fluid mx-4 my-1">';
+  html += '    <div class="container navbar-brand col-12">';
+  html += '    <div class="row">';
+  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button"><i class="fa fa-home" style="font-size:36px;" onclick="return createMainView();"></i></button></div>';
+  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createRankingView();"><i class="fa fa-star" style="font-size:32px;"></i></button></div>';
+  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createLogoutView();"><i class="fa fa-sign-out" style="font-size:32px;"></i></button></div>';
+  html += '    </div>';
+  html += '    </div>';
+
+  html += '  </div>';
+  html += '</nav>';
+  return html;
+
+}
+
+function genSysRecTable(res) {
+  var html='';
+
+  html += '<div class="container col-11 mt-3"><ul class="list-group">';
+
+  var li = '';
+  var progress = '';
+  sysRec = res;
+  for (var i = 0; i<res.length; i++) {
+      li += '<li class="list-group-item"><p>';
+      li += '<button type="button" class="btn btn-light btn-lg w-100 col-12" onclick="return createAddAttendView('+i+')"><strong>'+res[i].fullname+'</strong></button><br>';
+      li += '<span class="badge rounded-pill text-bg-warning">'+res[i].age+'</span> ';
+      li += '<span class="badge rounded-pill text-bg-success">'+res[i].lang+'</span> ';
+      li += '<span class="badge rounded-pill text-bg-primary">'+res[i].reason+'</span> ';
+      li += '<br>'+res[i].church+'<br>';
+      li += '<small class="text-muted">'+res[i].arrive+' to ';
+      li += res[i].depart+'</small>';
+      if (res[i].remark.length > 0) {
+        li += '<br><textarea class="form-control" style="field-sizing: content;" disabled readonly>'+res[i].remark+'</textarea>';
+        
+      }
+      li += '</p></li>';
+  }
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center active">';
+  html += '<strong>名單(內部)</strong><button type="button" class="btn btn-light" onclick="gasRegForm_int()">New</button>';
+  html += li;
+  html += '</ul>';
+  html += '</div>';
+  return html;
+}
+
+function genUserRecTable(res) {
+  var html='';
+
+  html += '<div class="container col-11 mt-3"><ul class="list-group">';
+
+  var li = '';
+  var progress = '';
+  for (var i = 0; i<res.length; i++) {
+      li += '<li class="list-group-item d-flex justify-content-between align-items-center"><p><strong>';
+      li += res[i].fullname+'</strong> ';
+      li += '<span class="badge rounded-pill text-bg-warning">'+res[i].agegroup+'</span> ';
+      li += '<span class="badge rounded-pill text-bg-primary">'+res[i].reason+'</span> ';
+      li += '<br>'+res[i].church+'<br>';
+      li += '<small class="text-muted">'+res[i].timestamp+'</small>';
+      if (res[i].lifeno.length > 0) {
+        li += '<br><input class="form-control col-12" type="text" value="'+res[i].lifeno+'" disabled readonly>';
+      }
+      li += '</p></li>';
+  }
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center active">';
+  html += '<strong>名單(外部)</strong>';
+  html += li;
+  html += '</ul>';
+  html += '</div>';
+  return html;
+}
+
+function genTodayAttendTable(res) {
+  var html='';
+
+  html += '<div class="container col-11 mt-3"><ul class="list-group">';
+
+  var li = '';
+  var progress = '';
+  for (var i = 0; i<res.length; i++) {
+    var completed = res[i].completed ? ' <i class="fa fa-check-circle" style="color:#0dcaf0;"></i>' : '';
+      li += '<li class="list-group-item d-flex justify-content-between align-items-center">';
+      li += '<p><strong>'+res[i].fullname+'</strong>'+completed+'<br>';
+      li += '<small class="text-muted">'+res[i].timestamp+' '+res[i].handledby+'</small></p>';
+      // li += '<p class="text-muted">'+res[i].handledby+'</p>';
+      li += '</li>';
+  }
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center active">';
+  html += '<strong>禮拜出席</strong>';
+  html += li;
+  html += '</ul>';
+  html += '</div>';
+  return html;
+}
+
+function createUserQrView() {
+
+  var userinfo = getUserInfo();
+  initViews();
+  if (userinfo.name == null || userinfo.email == null){
+    setHeaderTitle('h2', 'Invalid User');
+    return;
+  }
+  header.innerHTML = getNavHtml();
+  footer.innerHTML = getFooterHtml();
+
+  var div = createCustomElement('div', 'container col_11');
+  content.appendChild(div);
+  div.id = 'userQrPage';
+  // div.innerHTML = '<div class="d-flex col flex-column align-items-center mt-5 mb-5"><div id="qrcode"></div></div>';
+
+  var html = '<div class="container col-11 mt-5"><ul class="list-group">';
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
+  html += '<div class="d-flex col flex-column align-items-center"><strong>'+userinfo.name+'</strong></div>';
+  html += '</li>';
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
+  html += '<div class="d-flex col flex-column align-items-center mt-3 mb-3"><div id="qrcode"></div></div>';
+  html += '</li>';
+  // html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
+  // html += '未有公吿';
+  // html += '</li>';
+  // html += '<li class="list-group-item d-flex justify-content-between align-items-center">';
+  // html += '<div class="d-flex col flex-column align-items-center mt-5 mb-5"><div id="qrcode"></div></div>';
+  // html += '</li>';
+  html += '</ul>';
+  html += '</div>';
+  // html += userinfo.isStaff?'<div class="d-flex col flex-column align-items-center mt-2"><button type="button" class="btn btn-warning d-flex col flex-column align-items-center mt-5 mb-2" onclick="createScanView()">Scan</button></div>':'';
+  html += userinfo.isStaff?'<div class="d-flex col flex-column align-items-center mt-2"><button type="button" class="btn btn-warning d-flex col flex-column align-items-center mt-5 mb-2" onclick="gasUseVoucher()">Scan</button></div>':'';
+
+  div.innerHTML = html;
+
+  var qrcode = new QRCode("qrcode",window.btoa('act=user&c='+userinfo.email));
+}
+
+function createLogoutView() {
+
+  // var userinfo = getUserInfo();
+  initViews();
+  // if (userinfo.name == null){
+  //   setHeaderTitle('h2', 'Invalid User');
+  //   return;
+  // }
+  header.innerHTML = getNavHtml();
+  footer.innerHTML = getFooterHtml();
+
+  var div = createCustomElement('div', 'container col_11');
+  content.appendChild(div);
+  div.id = 'logoutPage';
+  // div.innerHTML = '<div class="d-flex col flex-column align-items-center mt-5 mb-5"><div id="qrcode"></div></div>';
+
+  var html = '<div class="container col-11 mt-5">';
+  html += '<div class="d-flex col flex-column align-items-center">';
+  html += '<button type="button" class="btn btn-danger col-12 col-lg-4" onclick="return logout();">登出</button>';
+  html += '</div>';
+  html += '</div>';
+  div.innerHTML = html;
+}
+
+function createUseVoucherView() {
+  var userinfo = getUserInfo();
+  var body = '<div class="d-flex col flex-column align-items-center mt-3 mb-3"><div id="qrcode_useVoucher"></div></div>';
+  var footer = '<div class="d-flex col flex-column align-items-center mt-3 mb-3"><button type="button" class="btn btn-warning" disabled>手機落單</button></div>';
+  showInputModal('現場下單',body,footer);
+  var qrcode = new QRCode("qrcode_useVoucher",window.btoa('act=deduct&c='+userinfo.email));
+}
+
+function createGiftQRview(code) {
+  var userinfo = getUserInfo();
+  inputModal.hide();
+  var body =  '<div class="card text-white">';
+  body += '  <img src="img/bg_coffee_7.jpeg" class="card-img">';
+  body += '  <div class="card-img-overlay">';
+  body += '    <h5 class="card-title">'+userinfo.name+'</h5>';
+  body += '    <h5 class="card-title">送您 '+qty+' 個咖啡餐飲券</h5>';
+  body += '<div class="d-flex col flex-column align-items-center"><div id="qrcode_giftaway" ></div></div>';
+  body += '  </div>';
+  body += '</div>';
+  showAlertModal('贈送咖啡餐飲券',body,'');
+  var qrcode = new QRCode("qrcode_giftaway", {"text": window.btoa(code), "width":100, "height":100});
+}
+
+function createGiftView() {
+  // var body = '<div class="d-flex col flex-column align-items-center mt-3 mb-3"><div id="qrcode_giftaway"></div></div>';
+  var body = createFormInputNumber('gift_qty', '數量', '', 1, true);
+  var footer = '<button type="button" class="btn btn-danger" onclick="return gasGetGiiftCode();">確定</button>';
+  showInputModal('贈送咖啡餐飲券',body,footer);
+  // var qrcode = new QRCode("qrcode_giftaway",window.btoa('Gift Away'));
+}
+
+function createVoucherView() {
+
+  var userinfo = getUserInfo();
+  initViews();
+  if (userinfo.name == null){
+    setHeaderTitle('h2', 'Invalid User');
+    return;
+  }
+  header.innerHTML = getNavHtml();
+  footer.innerHTML = getFooterHtml();
+
+  var div = createCustomElement('div', 'container col_11');
+  content.appendChild(div);
+  div.id = 'ticketPage';
+  var html = '<div class="container col-11 mt-5">';
+  // html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
+  // html += '<strong>咖啡餐飲券</strong><span class="badge rounded-pill bg-danger">99</span>';
+  // html += '</li>';
+  html += '<div class="d-flex col flex-column align-items-center mt-3 mb-3">';
+  html += '<div class="card text-white" onclick="return createUseVoucherView();" >';
+  html += '  <img src="img/bg_coffee_6.jpeg" class="card-img" style="max-width:400px;">';
+  html += '  <div class="card-img-overlay">';
+  html += '    <h4 class="card-title">使用咖啡餐飲券</h4>';
+  html += '  </div>';
+  html += '</div>';
+  html += '</div>';
+  /*
+  html += '<div class="d-flex col flex-column align-items-center mt-3 mb-3">';
+  html += '<div class="card text-white disabled" onclick="return createGiftView();">';
+  html += '  <img src="img/bg_coffee_7.jpeg" class="card-img" style="max-width:400px;">';
+  html += '  <div class="card-img-overlay">';
+  html += '    <h4 class="card-title">贈送咖啡餐飲券</h4>';
+  html += '  </div>';
+  html += '</div>';
+  html += '</div>';
+  */
+  html += '</div>';
+  div.innerHTML = html;
+
+}
+
+function createRankingView() {
+
+  var userinfo = getUserInfo();
+  initViews();
+  if (userinfo.name == null){
+    setHeaderTitle('h2', 'Invalid User');
+    return;
+  }
+  header.innerHTML = getNavHtml();
+  footer.innerHTML = getFooterHtml();
+
+  var div = createCustomElement('div', 'container col_11');
+  content.appendChild(div);
+  div.id = 'RankingPage';
+  var html = '<div class="container col-11 mt-5 pb-5"><ul class="list-group pb-5 mb-5">';
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
+  html += '<strong>排行榜 Ranking</strong>';
+  html += '</li>';
+
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+  html += '<div><span class="badge rounded-pill bg-warning">2</span>';
+  html += '<strong class="mx-3">Samson</strong></div>';
+  html += '</li>';
+
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+  html += '<div><span class="badge rounded-pill bg-warning">2</span>';
+  html += '<strong class="mx-3">Esther</strong></div>';
+  html += '</li>';
+
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+  html += '<div><span class="badge rounded-pill bg-warning">1</span>';
+  html += '<strong class="mx-3">Eve</strong></div>';
+  html += '</li>';
+
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+  html += '<div><span class="badge rounded-pill bg-warning">1</span>';
+  html += '<strong class="mx-3">Adam</strong></div>';
+  html += '</li>';
+
+  html += '</ul>';
+  html += '</div>';
+  div.innerHTML = html;
+
+}
+
+function createMainView() {
+  initViews();
+  var userinfo = getUserInfo();
+  initViews();
+  if (userinfo.name == null){
+    setHeaderTitle('h2', 'Invalid User');
+    return;
+  }
+  userinfo.participants = 2;
+  header.innerHTML = getNavHtml();
+  footer.innerHTML = getFooterHtml();
+
+  var div = createCustomElement('div', 'container col_11');
+  content.appendChild(div);
+  div.id = 'mainPage';
+  var html = '<div class="container col-11 mt-5"><ul class="list-group">';
+  html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
+  html += '<strong>參與人數 No. of Partcipants</strong><span class="badge rounded-pill bg-light text-dark"><strong>'+userinfo.participants+'</strong></span>';
+  html += '</li>';
+  html += '</ul>';
+  // html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+  html += '<div class="container col-12 text-center mt-2 mb-5 px-1 py-2">';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+
+  html += '<button class="btn btn-light bg-white text-dark mx-3 my-3"><div class="my-2 mx-2"><strong class="m-2">Mission 1 </strong>';
+  html += '<i class="fa fa-check-circle text-light" style="font-size:16px;"></i>';
+  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+
+  html += '<br><br><br>';
+
+  html += '</div>';
+  // html += '</li>';
+  // html += '</ul>';
+  html += '</div>';
+  div.innerHTML = html;
+
+}
+
+function createGLoginView() {
+  initViews();
+  setHeaderTitle('h2', '  ');
+  var div = createCustomElement('div', 'd-flex col flex-column align-items-center');
+  div.id='signin';
+  var div2 = createCustomElement('form', 'form-signin');
+  var div3 = createCustomElement('div', 'text-center');
+  var img = document.createElement('img');
+  img.classList.add('my-5');
+  img.src = 'img/ico_consideration.svg';
+  img.width = '150';
+  img.height = '150';
+  div3.appendChild(img);
+  div2.appendChild(div3);
+  var h1 = createCustomElement('h2', 'h2 mb-5 font-weight-normal');
+  h1.innerHTML = 'WE DO<br>@HK';
+  div3.appendChild(h1);
+  var btn_glogin = createCustomElement('btn', 'btn btn-warning btn-block text-center align-self-center mt-3 mb-3');
+  btn_glogin.innerHTML = 'Sign in with Google';
+  btn_glogin.onclick = function() { oauth2SignIn(); };
+  div2.appendChild(btn_glogin);
+  div.appendChild(div2);
+  content.appendChild(div);
+}
+
+function initViews() {
+  header.innerHTML = '';
+  content.innerHTML = '';
+  footer.innerHTML = '';
+}
+
+function setHeaderTitle(ele, text) {
+  header.innerHTML = '';
+
+  var title = createCustomElement(ele, 'title');
+  title.innerHTML = text;
+  header.appendChild(title);
+}
