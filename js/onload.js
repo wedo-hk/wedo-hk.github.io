@@ -89,8 +89,6 @@ function gasSubmitReg() {
 
 
 $(document).ready(function() {
-  createMainView();
-  /*
   gid = localStorage.getItem('gid');
   // login
   var access_token = '';
@@ -128,5 +126,4 @@ $(document).ready(function() {
     off();
     createGLoginView();
   }
-  */
 });
