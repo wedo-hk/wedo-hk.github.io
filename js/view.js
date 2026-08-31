@@ -362,9 +362,9 @@ function createMissionView() {
   body += '</div>';
 
   body += '<div>';
-  body += '<button class="btn btn-light mx-1 my-1 disabled">Paul</button>';
-  body += '<button class="btn btn-light mx-1 my-1 disabled">John</button>';
-  body += '<button class="btn btn-warning mx-1 my-1 disabled">You</button>';
+  body += '<span class="badge bg-light text-dark mx-1 my-1">Paul</span>';
+  body += '<span class="badge bg-light text-dark mx-1 my-1">John</span>';
+  body += '<span class="badge bg-warning text-dark mx-1 my-1">You</span>';
 
   body += '</div>';
 
