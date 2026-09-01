@@ -345,9 +345,12 @@ function createVoucherView() {
 
 }
 
-function createMissionView() {
+function createMissionView(i) {
 
-  var title = 'Mission 1';
+  var ind = i-1;
+  var m_type = 'm0'+i;
+
+  var title = 'Mission '+i;
   title += '<a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">';
   title += '<i class="fa fa-info-circle text-secondary mx-2" style="font-size:18px;"></i>';
   title += '</a>';
@@ -362,13 +365,22 @@ function createMissionView() {
   body += '</div>';
 
   body += '<div>';
-  body += '<span class="badge bg-light text-dark mx-1 my-1">Paul</span>';
-  body += '<span class="badge bg-light text-dark mx-1 my-1">John</span>';
-  body += '<span class="badge bg-warning text-dark mx-1 my-1">You</span>';
 
+  var userinfo = getUserInfo();
+  var arr = userinfo.m[m_type];
+
+  if (arr) {
+    arr.forEach(n => {
+      body += '<span class="badge bg-'+(userinfo.my_m.name == n ? 'warning' : 'light')+' text-dark mx-1 my-1">'+n+'</span>';
+    });
+  }else{
+    body += '成為第一個吧！ Be the first!';
+  }
   body += '</div>';
 
-  var footer = '<div class="d-flex col flex-column align-items"><button type="button" class="btn btn-warning" onclick="return;">我已完成！ I have completed!</button></div>';
+
+  var footer = (userinfo.my_m && userinfo.my_m.comis.includes(m_type)) ? '' : '<div class="d-flex col flex-column align-items"><button type="button" class="btn btn-warning" onclick="return gasComMission('+m_type+');">我已完成！ I have completed!</button></div>';
+
   showInputModal(title,body,footer);
 
 
@@ -385,28 +397,43 @@ function createRankingView() {
   header.innerHTML = getNavHtml();
   footer.innerHTML = getFooterHtml();
 
+  var r_data = userinfo.r ? userinfo.r : null;
+
   var div = createCustomElement('div', 'container col_11');
   content.appendChild(div);
   div.id = 'RankingPage';
   var html = '<div class="container col-11 mt-5 pb-5"><ul class="list-group pb-5 mb-5">';
   html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
   html += '<strong>排行榜 Ranking</strong>';
+  if (r_data) {
+    html += '<span class="badge bg-secondary"><small>'+r_data.t+'</small></span>';
+  }
   html += '</li>';
 
-  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
-  html += '<div><span class="badge rounded-pill bg-warning">2</span>';
-  html += '<strong class="mx-3">Paul</strong></div>';
-  html += '</li>';
+  if (r_data) {
 
-  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
-  html += '<div><span class="badge rounded-pill bg-warning">2</span>';
-  html += '<strong class="mx-3">John</strong></div>';
-  html += '</li>';
+    r_data.r.forEach(p => {
 
-  html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
-  html += '<div><span class="badge rounded-pill bg-warning">1</span>';
-  html += '<strong class="mx-3">Peter</strong></div>';
-  html += '</li>';
+      html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+      html += '<div><span class="badge rounded-pill bg-warning">'+p[1]+'</span>';
+      html += '<strong class="mx-3">'+p[0]+'</strong></div>';
+      html += '</li>';
+    });
+
+    // html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+    // html += '<div><span class="badge rounded-pill bg-warning">2</span>';
+    // html += '<strong class="mx-3">John</strong></div>';
+    // html += '</li>';
+
+    // html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+    // html += '<div><span class="badge rounded-pill bg-warning">1</span>';
+    // html += '<strong class="mx-3">Peter</strong></div>';
+    // html += '</li>';
+  }else{
+    html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
+    html += '成為第一個吧！ Be the first!';
+    html += '</li>';
+  }
 
   html += '</ul>';
   html += '</div>';
@@ -422,7 +449,6 @@ function createMainView() {
     setHeaderTitle('h2', 'Invalid User');
     return;
   }
-  userinfo.participants = 3;
   header.innerHTML = getNavHtml();
   footer.innerHTML = getFooterHtml();
 
@@ -431,35 +457,18 @@ function createMainView() {
   div.id = 'mainPage';
   var html = '<div class="container col-11 mt-5"><ul class="list-group">';
   html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
-  html += '<strong>參與人數 No. of Partcipants</strong><span class="badge rounded-pill bg-light text-dark"><strong>'+userinfo.participants+'</strong></span>';
+  html += '<strong>參與人數 No. of Partcipants</strong><span class="badge rounded-pill bg-light text-dark"><strong>'+(userinfo.r && userinfo.r.r ? userinfo.r.r.length : '0')+'</strong></span>';
   html += '</li>';
   html += '</ul>';
   // html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
   html += '<div class="container col-12 text-center mt-2 mb-5 px-1 py-2">';
 
-  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3" onclick="return createMissionView();"><div class="my-2"><strong class="m-2">Mission 1 </strong>';
-  html += '<i class="fa fa-check-circle text-success" style="font-size:14px;"></i>';
-  html += '<hr><h1 class="text-warning">2</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 2 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
-  html += '<hr><h1 class="text-warning">1</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 3 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
-  html += '<hr><h1 class="text-warning">0</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 4 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
-  html += '<hr><h1 class="text-warning">1</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 5 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
-  html += '<hr><h1 class="text-warning">0</h1></div></button>';
-
-  html += '<button class="btn btn-light bg-white text-dark mx-2 my-3"><div class="my-2"><strong class="m-2">Mission 6 </strong>';
-  html += '<i class="fa fa-check-circle text-light" style="font-size:14px;"></i>';
-  html += '<hr><h1 class="text-warning">0</h1></div></button>';
+  for (var i = 1; i <= 6; i++) {
+    var m_type = 'm0'+i;
+    html += '<button class="btn btn-light bg-white text-dark mx-2 my-3" onclick="return createMissionView('+i+');"><div class="my-2"><strong class="m-2">Mission '+i+' </strong>';
+    html += '<i class="fa fa-check-circle text-'+(userinfo.my_m && userinfo.my_m.comis && userinfo.my_m.comis[m_type] ? 'success' : 'light')+'" style="font-size:14px;"></i>';
+    html += '<hr><h1 class="text-warning">'+(userinfo.m && userinfo.m[m_type] ? userinfo.m[m_type].length : 0)+'</h1></div></button>';
+  }
 
   html += '<br><br><br>';
 

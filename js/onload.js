@@ -89,6 +89,8 @@ function gasSubmitReg() {
 
 
 $(document).ready(function() {
+  // createMainView();
+  // /*
   gid = localStorage.getItem('gid');
   // login
   var access_token = '';
@@ -113,7 +115,7 @@ $(document).ready(function() {
           window.history.pushState({}, document.title, "?");
           localStorage.setItem('userinfo', JSON.stringify(data.res));
           localStorage.setItem('access_token', access_token);
-          console.log(JSON.stringify(data.res));
+          console.log(JSON.stringify(data.res,0,2));
           createMainView()
           off();
         }else{
@@ -126,4 +128,5 @@ $(document).ready(function() {
     off();
     createGLoginView();
   }
+  // */
 });
