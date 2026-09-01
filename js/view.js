@@ -168,7 +168,7 @@ function createMissionView(i) {
 
   if (arr) {
     arr.forEach(n => {
-      body += '<span class="badge bg-'+(userinfo.my_m.name == n ? 'warning' : 'light')+' text-dark mx-1 my-1">'+n+'</span>';
+      body += '<span class="badge bg-'+(userinfo.my_m && userinfo.my_m.name == n ? 'warning' : 'light')+' text-dark mx-1 my-1">'+n+'</span>';
     });
   }else{
     body += '成為第一個吧！ Be the first!';
