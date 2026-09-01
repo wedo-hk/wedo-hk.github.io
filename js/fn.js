@@ -1,28 +1,3 @@
-function selectLang(input) {
-  lang = input;
-  setInnerHTMLById('container','');
-  gasGetLabels();
-}
-
-function lab(id) {
-  return id ? labels[id] : '';
-}
-
-function labArr(arr) {
-  var res = [];
-  for (var i = 0; i < arr.length; i++) {
-    res.push(lab(arr[i]));
-  }
-  return res;
-}
-
-function checkisReg() {
-  vname = '';
-  regForm = {};
-  lifeno = document.getElementById('iv1_lifeno').value;
-  (lifeno.length > 0) ? gasIsReg() : showAlertModal(lab('100051'), lab('100006'),'');
-}
-
 function getCSSClassStr(key) {
   return key.split(' ');
 }
@@ -104,7 +79,7 @@ function getUserInfo() {
 
 }
 
-function gasComMission(code) {
+function gasComMis(code) {
   var content = code;
   on();
   inputModal.hide();
@@ -115,6 +90,7 @@ function gasComMission(code) {
       if (data.status=='0') {
         localStorage.setItem('userinfo', JSON.stringify(data.res));
         createMainView();
+        createSavedView();
       }else{
         createRegErrorView(data.error_msg);
       }
