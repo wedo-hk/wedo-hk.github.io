@@ -46,6 +46,22 @@ function logout() {
   window.location.replace(YOUR_REDIRECT_URI);
 }
 
+// Function to generate a random state value
+function generateCryptoRandomState() {
+  const randomValues = new Uint32Array(2);
+  window.crypto.getRandomValues(randomValues);
+  // Encode as UTF-8
+  const utf8Encoder = new TextEncoder();
+  const utf8Array = utf8Encoder.encode(
+    String.fromCharCode.apply(null, randomValues)
+  );
+  // Base64 encode the UTF-8 data
+  return btoa(String.fromCharCode.apply(null, utf8Array))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+}
+
 function oauth2SignIn() {
   // create random state value and store in local storage
   var state = generateCryptoRandomState();
