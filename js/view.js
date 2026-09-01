@@ -253,7 +253,7 @@ function createMainView() {
   for (var i = 1; i <= 6; i++) {
     var m_type = 'm0'+i;
     html += '<button class="btn btn-light bg-white text-dark mx-2 my-3" onclick="return createMissionView('+i+');"><div class="my-2"><strong class="m-2">Mission '+i+' </strong>';
-    html += '<i class="fa fa-check-circle text-'+(userinfo.my_m && userinfo.my_m.comis && userinfo.my_m.comis[m_type] ? 'success' : 'light')+'" style="font-size:14px;"></i>';
+    html += '<i class="fa fa-check-circle text-'+(userinfo.my_m && userinfo.my_m.comis && userinfo.my_m.comis.includes(m_type) ? 'success' : 'light')+'" style="font-size:14px;"></i>';
     html += '<hr><h1 class="text-warning">'+(userinfo.m && userinfo.m[m_type] ? userinfo.m[m_type].length : 0)+'</h1></div></button>';
   }
 
