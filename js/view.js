@@ -91,8 +91,7 @@ function getFooterHtml() {
   html += '  <div class="container-fluid mx-4 my-1">';
   html += '    <div class="container navbar-brand col-12">';
   html += '    <div class="row">';
-  // html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button"><i class="fa-regular fa-clipboard-list" style="font-size:28px;" onclick="return createMainView();"></i></button></div>';
-  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createRankingView();"><i class="fa-solid fa-clipboard-check" style="font-size:28px;"></i></button></div>';
+  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createMainView();"><i class="fa-solid fa-clipboard-check" style="font-size:28px;"></i></button></div>';
   html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createRankingView();"><i class="fa-solid fa-ranking-star" style="font-size:28px;"></i></button></div>';
   html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createLogoutView();"><i class="fa-solid fa-arrow-right-from-bracket" style="font-size:28px;"></i></button></div>';
   html += '    </div>';
