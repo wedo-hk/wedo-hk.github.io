@@ -126,6 +126,16 @@ function createLogoutView() {
   div.innerHTML = html;
 }
 
+function createProfileView() {
+  var userinfo = getUserInfo();
+  var body = '';
+  body += '<p>顯示名稱 Display Name: <strong>'+userinfo.name+'</strong></p>'
+  body += '<p><a href="https://forms.gle/jK395Byn81KtFywa7">更改顯示名稱 Change Display Name</a></p>';
+  
+
+  showInputModal('個人檔案 Profile',body,'');
+}
+
 function createSavedView() {
   const i = Math.floor(Math.random() * (cheerUpMsg.length));
   // const rnum2 = Math.floor(Math.random() * 6) + 1;
