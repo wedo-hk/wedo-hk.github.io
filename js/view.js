@@ -76,7 +76,7 @@ function getNavHtml() {
   html += '      <img src="img/ico_consideration.svg" width="28" height="28" alt="">  ';
   html += '<span class="mx-2">'+app_name+'</span>';
   html += '    </a>';
-  // html += '      <button class="btn btn-light text-warning"><i class="fa fa-user-circle" style="font-size:28px;" onclick="return createLogoutView();"></i></button>';
+  html += '      <button class="btn btn-light text-warning"><i class="fa fa-user-circle" style="font-size:28px;" onclick="return createProfileView();"></i></button>';
   html += '    </div>';
   
   html += '  </div>';
