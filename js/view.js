@@ -93,7 +93,7 @@ function getFooterHtml() {
   html += '    <div class="row">';
   html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button"><i class="fa-solid fa-clipboard-list" style="font-size:36px;" onclick="return createMainView();"></i></button></div>';
   html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createRankingView();"><i class="fa-solid fa-ranking-star" style="font-size:32px;"></i></button></div>';
-  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createLogoutView();"><i class="fa-solid fa-right-from-bracket" style="font-size:32px;"></i></button></div>';
+  html += '      <div class="col text-center"><button class="btn btn-light text-warning" type="button" onclick="return createLogoutView();"><i class="fa-solid fa-arrow-right-from-bracket" style="font-size:32px;"></i></button></div>';
   html += '    </div>';
   html += '    </div>';
 
