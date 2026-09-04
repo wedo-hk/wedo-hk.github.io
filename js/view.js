@@ -166,7 +166,7 @@ function createMissionView(i) {
 
   var body = '';
   body += '<div class="collapse" id="collapseExample">';
-  body += '  <div class="card card-body mb-3" style="background-color: #FCF9F4;"'>;
+  body += '  <div class="card card-body mb-3" style="background-color: #FCF9F4;">';
   body += m_desc[ind];
   body += '  </div>';
   body += '</div>';
