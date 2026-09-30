@@ -160,7 +160,7 @@ function createMissionView(i) {
   var m_type = 'm0'+i;
 
   var title = 'Mission '+i;
-  title += '<a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">';
+  title += '<a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">';
   title += '<i class="fa fa-info-circle text-secondary mx-2" style="font-size:18px;"></i>';
   title += '</a>';
 
