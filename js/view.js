@@ -178,7 +178,7 @@ function createMissionView(i) {
 
   if (arr) {
     arr.forEach(n => {
-      body += '<span class="badge bg-'+(userinfo.my_m && userinfo.my_m.name == n ? 'warning' : 'white')+' text-dark mx-1 my-1">'+n+'</span>';
+      body += '<span class="badge bg-'+(userinfo.my_m && userinfo.my_m.name == n ? 'warning' : 'transparent')+' text-dark mx-1 my-1">'+n+'</span>';
     });
   }else{
     body += '成為第一個吧！ Be the first!';
@@ -213,7 +213,7 @@ function createRankingView() {
   html += '<li class="list-group-item d-flex justify-content-between align-items-center text-bg-warning">';
   html += '<strong>排行榜 Ranking</strong>';
   if (r_data) {
-    html += '<span class="badge bg-light"><small>'+r_data.t+'</small></span>';
+    html += '<span class="badge bg-light text-dark"><small>'+r_data.t+'</small></span>';
   }
   html += '</li>';
 
@@ -222,7 +222,7 @@ function createRankingView() {
     r_data.r.forEach(p => {
 
       html += '<li class="list-group-item d-flex justify-content-between align-items-center ">';
-      html += '<div><span class="badge rounded-pill bg-warning">'+p[1]+'</span>';
+      html += '<div><span class="badge rounded-pill bg-warning text-dark">'+p[1]+'</span>';
       html += '<strong class="mx-3">'+p[0]+'</strong></div>';
       html += '</li>';
     });
